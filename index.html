@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>絵文字URLリダイレクター</title>
+    <script type="module" src="./encoderDecoder.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0056b3;
+        }
+        p {
+            font-size: 1.1em;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>リダイレクト中...</h1>
+        <p>絵文字URLから元のURLへリダイレクトしています。</p>
+        <p id="status">絵文字をデコード中...</p>
+    </div>
+
+    <script type="module">
+        // 変更点: script.js ではなく encoderDecoder.js からインポート
+        import { decodeUrlFromEmoji } from './encoderDecoder.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const encodedEmoji = params.get('q');
+            const statusElement = document.getElementById('status');
+
+            if (encodedEmoji) {
+                const decodedUrl = decodeUrlFromEmoji(encodedEmoji);
+                if (decodedUrl) {
+                    statusElement.textContent = `元のURL: ${decodedUrl} へリダイレクトします。`;
+                    window.location.replace(decodedUrl); // リダイレクト
+                } else {
+                    statusElement.textContent = 'エラー: 絵文字からURLをデコードできませんでした。';
+                    console.error('Failed to decode emoji to URL:', encodedEmoji);
+                }
+            } else {
+                statusElement.textContent = 'エラー: URLに絵文字のクエリパラメータ "q" が見つかりません。';
+                console.warn('No "q" parameter found in URL.');
+            }
+        });
+    </script>
+</body>
+</html>
