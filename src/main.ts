@@ -1,24 +1,23 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { decodeUrlFromEmoji } from './encoderDecoder';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const encodedEmoji = params.get('q');
+    const statusElement = document.getElementById('status');
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+    if (statusElement) {
+        if (encodedEmoji) {
+            const decodedUrl = decodeUrlFromEmoji(encodedEmoji);
+            if (decodedUrl) {
+                statusElement.textContent = `元のURL: ${decodedUrl} へリダイレクトします。`;
+                window.location.replace(decodedUrl);
+            } else {
+                statusElement.textContent = 'エラー: 絵文字からURLをデコードできませんでした。';
+                console.error('Failed to decode emoji to URL:', encodedEmoji);
+            }
+        } else {
+            statusElement.textContent = 'エラー: URLに絵文字のクエリパラメータ "q" が見つかりません。';
+            console.warn('No "q" parameter found in URL.');
+        }
+    }
+});

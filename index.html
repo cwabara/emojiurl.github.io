@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>絵文字URLリダイレクター</title>
-    <script type="module" src="/src/encoderDecoder.ts"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -35,7 +34,7 @@
             color: #666;
         }
     </style>
-</head>
+    </head>
 <body>
     <div class="container">
         <h1>リダイレクト中...</h1>
@@ -43,28 +42,6 @@
         <p id="status">絵文字をデコード中...</p>
     </div>
 
-    <script type="module">
-        import { decodeUrlFromEmoji } from '/src/encoderDecoder.ts';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const encodedEmoji = params.get('q');
-            const statusElement = document.getElementById('status');
-
-            if (encodedEmoji) {
-                const decodedUrl = decodeUrlFromEmoji(encodedEmoji);
-                if (decodedUrl) {
-                    statusElement.textContent = `元のURL: ${decodedUrl} へリダイレクトします。`;
-                    window.location.replace(decodedUrl); // リダイレクト
-                } else {
-                    statusElement.textContent = 'エラー: 絵文字からURLをデコードできませんでした。';
-                    console.error('Failed to decode emoji to URL:', encodedEmoji);
-                }
-            } else {
-                statusElement.textContent = 'エラー: URLに絵文字のクエリパラメータ "q" が見つかりません。';
-                console.warn('No "q" parameter found in URL.');
-            }
-        });
-    </script>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
