@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>絵文字URLリダイレクター</title>
-    <script type="module" src="./encoderDecoder.js"></script>
+    <script type="module" src="/src/encoderDecoder.ts"></script>
     <style>
         body {
             font-family: sans-serif;
@@ -44,8 +44,7 @@
     </div>
 
     <script type="module">
-        // 変更点: script.js ではなく encoderDecoder.js からインポート
-        import { decodeUrlFromEmoji } from './encoderDecoder.js';
+        import { decodeUrlFromEmoji } from '/src/encoderDecoder.ts';
 
         document.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
