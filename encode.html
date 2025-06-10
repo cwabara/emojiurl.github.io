@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>絵文字URL</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px; 
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultContainer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            word-break: break-all;
+            text-align: left;
+        }
+        #encodedEmojiOutput, #fullUrlOutput {
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            background-color: #eee;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
+  <script type="module" crossorigin src="/emojiurl.github.io/assets/encode-B_LYw_Bq.js"></script>
+  <link rel="modulepreload" crossorigin href="/emojiurl.github.io/assets/encoderDecoder-DDaLqDSk.js">
+</head>
+<body>
+    <div class="container">
+        <h1>絵文字URL</h1>
+        <p>隠したいURLとベース絵文字を入力してください。</p>
+
+        <label for="urlInput">元のURL:</label>
+        <input type="text" id="urlInput" value="https://www.google.com/" placeholder="https://example.com">
+
+        <label for="emojiInput">ベース絵文字:</label>
+        <input type="text" id="emojiInput" value="😀"> <button id="encodeButton">エンコード</button>
+
+        <div id="resultContainer">
+            <h2>結果</h2>
+            <p><strong>エンコードされた絵文字:</strong></p>
+            <div id="encodedEmojiOutput"></div>
+            <p><strong>変更されたURL:</strong></p>
+            <div id="fullUrlOutput"></div>
+            <p>上記のURLをコピーして使用してください。</p>
+        </div>
+    </div>
+
+</body>
+</html>
