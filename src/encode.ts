@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const encodeButton = document.getElementById('encodeButton');
     const encodedEmojiOutput = document.getElementById('encodedEmojiOutput');
     const fullUrlOutput = document.getElementById('fullUrlOutput');
-    git add src/encode.ts
+
     if (!urlInput || !emojiInput || !encodeButton || !encodedEmojiOutput || !fullUrlOutput) {
         console.error('必要なDOM要素が見つかりません。');
         return;
