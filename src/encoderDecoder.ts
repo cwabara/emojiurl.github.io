@@ -1,36 +1,40 @@
-function byteToVariationSelector(byte) {
+function byteToVariationSelector(byte: number): string {
     if (byte < 16) {
         return String.fromCodePoint(0xFE00 + byte);
-    }
-    else {
+    } else {
         return String.fromCodePoint(0xE0100 + (byte - 16));
     }
 }
-function variationSelectorToByte(variationSelector) {
+
+function variationSelectorToByte(variationSelector: string): number | undefined {
     const codePoint = variationSelector.codePointAt(0);
     if (codePoint === undefined) {
         return undefined;
     }
+
     if (codePoint >= 0xFE00 && codePoint <= 0xFE0F) {
         return (codePoint - 0xFE00);
-    }
-    else if (codePoint >= 0xE0100 && codePoint <= 0xE01EF) {
+    } else if (codePoint >= 0xE0100 && codePoint <= 0xE01EF) {
         return (codePoint - 0xE0100 + 16);
     }
     return undefined;
 }
-export function encodeUrlInEmoji(baseEmoji, url) {
+
+export function encodeUrlInEmoji(baseEmoji: string, url: string): string {
     const encoder = new TextEncoder();
     const bytes = encoder.encode(url);
+
     let result = baseEmoji;
     for (const byte of bytes) {
         result += byteToVariationSelector(byte);
     }
     return result;
 }
-export function decodeUrlFromEmoji(encodedEmoji) {
+
+export function decodeUrlFromEmoji(encodedEmoji: string): string | undefined {
     const decoder = new TextDecoder();
-    const bytes = [];
+    const bytes: number[] = [];
+
     let foundFirstVariationSelector = false;
     let i = 0;
     while (i < encodedEmoji.length) {
@@ -38,26 +42,28 @@ export function decodeUrlFromEmoji(encodedEmoji) {
         if (codePoint === undefined) {
             break;
         }
+
         const char = String.fromCodePoint(codePoint);
         const byte = variationSelectorToByte(char);
+
         if (byte !== undefined) {
             bytes.push(byte);
             foundFirstVariationSelector = true;
-        }
-        else {
+        } else {
             if (foundFirstVariationSelector) {
                 break;
             }
         }
-        i += char.length;
+        i += char.length; 
     }
+
     if (bytes.length === 0) {
         return undefined;
     }
+
     try {
         return decoder.decode(new Uint8Array(bytes));
-    }
-    catch (e) {
+    } catch (e) {
         console.error("Failed to decode bytes to URL:", e);
         return undefined;
     }
